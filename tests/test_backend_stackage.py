@@ -43,13 +43,13 @@ from tests import Modeltests, create_distro, skip_jenkins
 BACKEND = 'Stackage'
 
 
-class HackageBackendtests(Modeltests):
-    """ Hackage backend tests. """
+class StackageBackendtests(Modeltests):
+    """ Stackage backend tests. """
 
     @skip_jenkins
     def setUp(self):
         """ Set up the environnment, ran before every tests. """
-        super(HackageBackendtests, self).setUp()
+        super(StackageBackendtests, self).setUp()
 
         create_distro(self.session)
         self.create_project()
@@ -78,14 +78,14 @@ class HackageBackendtests(Modeltests):
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = '1.19'
-        obs = backend.HackageBackend.get_version(project)
+        obs = backend.StackageBackend.get_version(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = model.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
-            backend.HackageBackend.get_version,
+            backend.StackageBackend.get_version,
             project
         )
 
@@ -95,18 +95,18 @@ class HackageBackendtests(Modeltests):
         pid = 1
         project = model.Project.get(self.session, pid)
         exp = ['1.19']
-        obs = backend.HackageBackend.get_ordered_versions(project)
+        obs = backend.StackageBackend.get_ordered_versions(project)
         self.assertEqual(obs, exp)
 
         pid = 2
         project = model.Project.get(self.session, pid)
         self.assertRaises(
             AnityaPluginException,
-            backend.HackageBackend.get_version,
+            backend.StackageBackend.get_version,
             project
         )
 
 
 if __name__ == '__main__':
-    SUITE = unittest.TestLoader().loadTestsFromTestCase(HackageBackendtests)
+    SUITE = unittest.TestLoader().loadTestsFromTestCase(StackageBackendtests)
     unittest.TextTestRunner(verbosity=2).run(SUITE)
